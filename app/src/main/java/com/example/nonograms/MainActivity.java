@@ -35,18 +35,15 @@ public class MainActivity extends AppCompatActivity {
             TableRow tableRow = new TableRow(this);
             for (int j = 0; j < 8; j++) {
                 TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(100, 100);
+                layoutParams.setMargins(4, 4, 4, 4);
 
                 if (i > 2 && j > 2) {
                     Button button = new Button(this);
-                    button.setText("B");
+                    button.setText("");
                     button.setGravity(Gravity.CENTER);
                     button.setPadding(0, 0, 0, 0);
+                    button.setBackgroundColor(Color.LTGRAY);
 
-                    if ((i + j) % 2 == 0) {
-                        button.setBackgroundColor(Color.LTGRAY);
-                    } else {
-                        button.setBackgroundColor(Color.WHITE);
-                    }
 
                     button.setOnClickListener(v -> button.setBackgroundColor(Color.BLACK));
 
@@ -65,11 +62,8 @@ public class MainActivity extends AppCompatActivity {
                         textView.setText("");
                     }
 
-                    if ((i + j) % 2 == 0) {
-                        textView.setBackgroundColor(Color.LTGRAY);
-                    } else {
-                        textView.setBackgroundColor(Color.WHITE);
-                    }
+                    textView.setBackgroundColor(Color.WHITE);
+
 
                     tableRow.addView(textView);
                 }
