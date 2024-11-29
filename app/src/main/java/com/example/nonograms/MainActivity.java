@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import androidx.activity.EdgeToEdge;
@@ -59,11 +60,19 @@ public class MainActivity extends AppCompatActivity {
 
                     cell.setOnClickListener(v -> {
                         if (toggleButton.isChecked()) {
-                            // checked 상태: X 표시 토글
                             cell.toggleX();
                         } else {
-                            // unchecked 상태: 검정 사각형 찾기
-                            cell.markBlackSquare();
+                            boolean success = cell.markBlackSquare();
+                            if (success) {
+                                if (Cell.getNumBlackSquares() == 0) {
+                                    winGame();
+                                }
+                            } else {
+                                life.decreaseLife();
+                                if (life.isGameOver()) {
+                                    endGame();
+                                }
+                            }
                         }
                     });
 
@@ -144,4 +153,24 @@ public class MainActivity extends AppCompatActivity {
         return counts;
     } // count consecutive Bs
 
+    private void winGame() {
+        Toast.makeText(this, "Congratulations! You Win!", Toast.LENGTH_LONG).show();
+        unableEvent();
+    }
+
+    private void endGame() {
+        Toast.makeText(this, "Game Over, You lose!", Toast.LENGTH_LONG).show();
+        unableEvent();
+    }
+
+    private void unableEvent() {
+        TableLayout tableLayout = findViewById(R.id.tableLayout);
+        for (int i = 3; i < 8; i++) {
+            TableRow row = (TableRow) tableLayout.getChildAt(i);
+            for (int j = 3; j < 8; j++) {
+                Cell cell = (Cell) row.getChildAt(j);
+                cell.setClickable(false);
+            }
+        }
+    }
 }

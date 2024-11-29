@@ -19,6 +19,7 @@ public class Cell extends androidx.appcompat.widget.AppCompatButton {
 
         if (blackSquare) {
             this.setText("B");
+            numBlackSquares++;
         } else {
             this.setText("");
         }
