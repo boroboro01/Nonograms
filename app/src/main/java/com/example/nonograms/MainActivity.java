@@ -34,35 +34,48 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < 8; i++) {
             TableRow tableRow = new TableRow(this);
             for (int j = 0; j < 8; j++) {
-                TextView textView = new TextView(this);
-                textView.setGravity(Gravity.CENTER);
-                textView.setPadding(8, 8, 8, 8);
+                TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(100, 100);
 
-                // 셀 크기 고정
-                textView.setWidth(100);  // 고정된 너비 (픽셀 단위)
-                textView.setHeight(100); // 고정된 높이 (픽셀 단위)
+                if (i > 2 && j > 2) {
+                    Button button = new Button(this);
+                    button.setText("B");
+                    button.setGravity(Gravity.CENTER);
+                    button.setPadding(0, 0, 0, 0);
 
-                // 텍스트 설정
-                if (i < 3 && j > 2) {
-                    textView.setText("0");
-                } else if (i > 3 && j < 3) {
-                    textView.setText("0");
+                    if ((i + j) % 2 == 0) {
+                        button.setBackgroundColor(Color.LTGRAY);
+                    } else {
+                        button.setBackgroundColor(Color.WHITE);
+                    }
+
+                    button.setOnClickListener(v -> button.setBackgroundColor(Color.BLACK));
+
+                    button.setLayoutParams(layoutParams);
+                    tableRow.addView(button);
                 } else {
-                    textView.setText("");
-                }
+                    TextView textView = new TextView(this);
+                    textView.setGravity(Gravity.CENTER);
+                    textView.setLayoutParams(layoutParams);
 
-                // 배경색 설정 (체스판 스타일)
-                if ((i + j) % 2 == 0) {
-                    textView.setBackgroundColor(Color.LTGRAY);
-                } else {
-                    textView.setBackgroundColor(Color.WHITE);
-                }
+                    if (i <= 2 && j > 2) {
+                        textView.setText("0");
+                    } else if (i > 2 && j < 3) {
+                        textView.setText("0");
+                    } else {
+                        textView.setText("");
+                    }
 
-                tableRow.addView(textView);
+                    if ((i + j) % 2 == 0) {
+                        textView.setBackgroundColor(Color.LTGRAY);
+                    } else {
+                        textView.setBackgroundColor(Color.WHITE);
+                    }
+
+                    tableRow.addView(textView);
+                }
             }
             tableLayout.addView(tableRow);
         }
-
 
 
 
