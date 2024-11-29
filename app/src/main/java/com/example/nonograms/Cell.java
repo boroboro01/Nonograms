@@ -16,12 +16,9 @@ public class Cell extends androidx.appcompat.widget.AppCompatButton {
     public Cell(Context context) {
         super(context);
         blackSquare = random.nextBoolean();
-
+        this.setText("");
         if (blackSquare) {
-            this.setText("B");
             numBlackSquares++;
-        } else {
-            this.setText("");
         }
     }
 
@@ -31,6 +28,10 @@ public class Cell extends androidx.appcompat.widget.AppCompatButton {
 
     public static int getNumBlackSquares() {
         return numBlackSquares;
+    }
+
+    public static void resetNumBlackSquares() {
+        numBlackSquares = 0;
     }
 
     public boolean markBlackSquare() {

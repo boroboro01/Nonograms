@@ -21,6 +21,7 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity {
     private Life life;
     private TextView statusTextView;
+    private Button restartButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +40,17 @@ public class MainActivity extends AppCompatActivity {
         TextView lifeTextView = findViewById(R.id.lifeTextView);
         life = new Life(3, lifeTextView);
         statusTextView = findViewById(R.id.statusTextView);
+        restartButton = findViewById(R.id.restartButton);
 
         setStatusEmoji("🙂");
+        setupGame(tableLayout, toggleButton);
+        restartButton.setOnClickListener(v -> resetGame(tableLayout, lifeTextView));
 
+
+    }
+
+    private void setupGame (TableLayout tableLayout, ToggleButton toggleButton){
+        tableLayout.removeAllViews();
         for (int i = 0; i < 8; i++) {
             TableRow tableRow = new TableRow(this);
 
@@ -126,7 +135,17 @@ public class MainActivity extends AppCompatActivity {
                 resultView.setText(String.valueOf(colCounts[resultRow]));
             }
         }
-    } // on Create
+    }
+
+    private void resetGame(TableLayout tableLayout, TextView lifeTextView) {
+        life = new Life(3, lifeTextView);
+
+        Cell.resetNumBlackSquares();
+
+        setStatusEmoji("🙂");
+
+        setupGame(tableLayout, findViewById(R.id.toggleButton));
+    }
 
     private int[] countConsecutiveBs(TableLayout tableLayout, int fixedIndex, boolean isRow) {
         int[] counts = new int[3];
@@ -137,11 +156,11 @@ public class MainActivity extends AppCompatActivity {
             TableRow currentRow = isRow
                     ? (TableRow) tableLayout.getChildAt(fixedIndex)
                     : (TableRow) tableLayout.getChildAt(variableIndex);
-            Button button = (Button) (isRow
+            Cell cell = (Cell) (isRow
                     ? currentRow.getChildAt(variableIndex)
                     : currentRow.getChildAt(fixedIndex));
 
-            if ("B".equals(button.getText().toString())) {
+            if (cell.isBlackSquare()) {
                 consecutiveCount++;
             } else if (consecutiveCount > 0) {
                 if (countIndex < 3) {
