@@ -7,6 +7,8 @@ import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +19,7 @@ import androidx.core.view.WindowInsetsCompat;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
+    private Life life;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +32,11 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        TableLayout tableLayout = findViewById(R.id.tableLayout);
 
+        TableLayout tableLayout = findViewById(R.id.tableLayout);
+        ToggleButton toggleButton = findViewById(R.id.toggleButton);
+        TextView lifeTextView = findViewById(R.id.lifeTextView);
+        life = new Life(3, lifeTextView);
 
         for (int i = 0; i < 8; i++) {
             TableRow tableRow = new TableRow(this);
@@ -53,7 +59,21 @@ public class MainActivity extends AppCompatActivity {
                     cell.setBackgroundColor(Color.LTGRAY);
 
                     cell.setOnClickListener(v -> {
-                        boolean success = cell.markBlackSquare();
+                        if (toggleButton.isChecked()) {
+                            cell.toggleX();
+                        } else {
+                            boolean success = cell.markBlackSquare();
+                            if (success) {
+                                if (Cell.getNumBlackSquares() == 0) {
+                                    winGame();
+                                }
+                            } else {
+                                life.decreaseLife();
+                                if (life.isGameOver()) {
+                                    endGame();
+                                }
+                            }
+                        }
                     });
 
                     cell.setLayoutParams(layoutParams);
@@ -133,4 +153,24 @@ public class MainActivity extends AppCompatActivity {
         return counts;
     } // count consecutive Bs
 
+    private void winGame() {
+        Toast.makeText(this, "Congratulations! You Win!", Toast.LENGTH_LONG).show();
+        unableEvent();
+    }
+
+    private void endGame() {
+        Toast.makeText(this, "Game Over, You lose!", Toast.LENGTH_LONG).show();
+        unableEvent();
+    }
+
+    private void unableEvent() {
+        TableLayout tableLayout = findViewById(R.id.tableLayout);
+        for (int i = 3; i < 8; i++) {
+            TableRow row = (TableRow) tableLayout.getChildAt(i);
+            for (int j = 3; j < 8; j++) {
+                Cell cell = (Cell) row.getChildAt(j);
+                cell.setClickable(false);
+            }
+        }
+    }
 }
