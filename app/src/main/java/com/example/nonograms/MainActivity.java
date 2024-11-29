@@ -18,6 +18,7 @@ import androidx.core.view.WindowInsetsCompat;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
+    private Life life;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,9 +31,11 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
+
         TableLayout tableLayout = findViewById(R.id.tableLayout);
         ToggleButton toggleButton = findViewById(R.id.toggleButton);
-
+        TextView lifeTextView = findViewById(R.id.lifeTextView);
+        life = new Life(3, lifeTextView);
 
         for (int i = 0; i < 8; i++) {
             TableRow tableRow = new TableRow(this);
