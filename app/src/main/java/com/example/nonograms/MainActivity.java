@@ -52,6 +52,10 @@ public class MainActivity extends AppCompatActivity {
                     cell.setPadding(0, 0, 0, 0);
                     cell.setBackgroundColor(Color.LTGRAY);
 
+                    cell.setOnClickListener(v -> {
+                        boolean success = cell.markBlackSquare();
+                    });
+
                     cell.setLayoutParams(layoutParams);
                     tableRow.addView(cell);
                 } else {

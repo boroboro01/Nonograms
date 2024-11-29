@@ -7,14 +7,12 @@ import java.util.Random;
 
 public class Cell extends androidx.appcompat.widget.AppCompatButton {
 
-    // Fields
-    private boolean blackSquare; // 검정 사각형 여부
-    private boolean checked; // X 표시 여부
-    private static int numBlackSquares = 0; // 찾지 못한 검정 사각형 수
+    private boolean blackSquare;
+    private boolean checked;
+    private static int numBlackSquares = 0;
 
     Random random = new Random();
 
-    // Constructor
     public Cell(Context context) {
         super(context);
         blackSquare = random.nextBoolean();
