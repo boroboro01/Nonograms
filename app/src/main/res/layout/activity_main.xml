@@ -28,11 +28,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <ToggleButton
         android:id="@+id/toggleButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Toggle"
+        android:textOff="Checking Black Square"
+        android:textOn="Checking X"
         android:textColor="#FFFFFF"
         android:backgroundTint="#000000"
         app:layout_constraintBottom_toBottomOf="parent"

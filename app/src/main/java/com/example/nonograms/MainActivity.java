@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         TableLayout tableLayout = findViewById(R.id.tableLayout);
+        ToggleButton toggleButton = findViewById(R.id.toggleButton);
 
 
         for (int i = 0; i < 8; i++) {
@@ -53,7 +55,13 @@ public class MainActivity extends AppCompatActivity {
                     cell.setBackgroundColor(Color.LTGRAY);
 
                     cell.setOnClickListener(v -> {
-                        boolean success = cell.markBlackSquare();
+                        if (toggleButton.isChecked()) {
+                            // checked 상태: X 표시 토글
+                            cell.toggleX();
+                        } else {
+                            // unchecked 상태: 검정 사각형 찾기
+                            cell.markBlackSquare();
+                        }
                     });
 
                     cell.setLayoutParams(layoutParams);
