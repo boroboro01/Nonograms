@@ -35,6 +35,9 @@ public class MainActivity extends AppCompatActivity {
 
         for (int i = 0; i < 8; i++) {
             TableRow tableRow = new TableRow(this);
+
+            int bCount = 0;
+
             for (int j = 0; j < 8; j++) {
                 TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(100, 100);
                 layoutParams.setMargins(4, 4, 4, 4);
@@ -44,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
                     if (random.nextBoolean()) {
                         button.setText("B");
+                        bCount++;
                     } else {
                         button.setText("");
                     }
@@ -72,14 +76,64 @@ public class MainActivity extends AppCompatActivity {
 
                     textView.setBackgroundColor(Color.WHITE);
 
-
                     tableRow.addView(textView);
                 }
             }
             tableLayout.addView(tableRow);
         }
+        for (int row = 3; row < 8; row++) {
+            int[] rowCounts = countConsecutiveBs(tableLayout, row, true);
+            TableRow tableRow = (TableRow) tableLayout.getChildAt(row);
 
+            TextView textView1 = (TextView) tableRow.getChildAt(0);
+            TextView textView2 = (TextView) tableRow.getChildAt(1);
+            TextView textView3 = (TextView) tableRow.getChildAt(2);
 
+            textView1.setText(String.valueOf(rowCounts[0]));
+            textView2.setText(String.valueOf(rowCounts[1]));
+            textView3.setText(String.valueOf(rowCounts[2]));
+        }
 
-    }
+        for (int col = 3; col < 8; col++) {
+            int[] colCounts = countConsecutiveBs(tableLayout, col, false);
+
+            for (int resultRow = 0; resultRow < 3; resultRow++) {
+                TableRow headerRow = (TableRow) tableLayout.getChildAt(resultRow);
+                TextView resultView = (TextView) headerRow.getChildAt(col);
+                resultView.setText(String.valueOf(colCounts[resultRow]));
+            }
+        }
+    } // on Create
+
+    private int[] countConsecutiveBs(TableLayout tableLayout, int fixedIndex, boolean isRow) {
+        int[] counts = new int[3];
+        int consecutiveCount = 0;
+        int countIndex = 0;
+
+        for (int variableIndex = 3; variableIndex < 8; variableIndex++) {
+            TableRow currentRow = isRow
+                    ? (TableRow) tableLayout.getChildAt(fixedIndex)
+                    : (TableRow) tableLayout.getChildAt(variableIndex);
+            Button button = (Button) (isRow
+                    ? currentRow.getChildAt(variableIndex)
+                    : currentRow.getChildAt(fixedIndex));
+
+            if ("B".equals(button.getText().toString())) {
+                consecutiveCount++;
+            } else if (consecutiveCount > 0) {
+                if (countIndex < 3) {
+                    counts[countIndex] = consecutiveCount;
+                    countIndex++;
+                }
+                consecutiveCount = 0;
+            }
+        }
+
+        if (consecutiveCount > 0 && countIndex < 3) {
+            counts[countIndex] = consecutiveCount;
+        }
+
+        return counts;
+    } // count consecutive Bs
+
 }
