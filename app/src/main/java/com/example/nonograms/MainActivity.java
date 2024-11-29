@@ -30,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         TableLayout tableLayout = findViewById(R.id.tableLayout);
-        Random random = new Random();
 
 
         for (int i = 0; i < 8; i++) {
@@ -43,24 +42,18 @@ public class MainActivity extends AppCompatActivity {
                 layoutParams.setMargins(4, 4, 4, 4);
 
                 if (i > 2 && j > 2) {
-                    Button button = new Button(this);
+                    Cell cell = new Cell(this);
 
-                    if (random.nextBoolean()) {
-                        button.setText("B");
+                    if (cell.isBlackSquare()) {
                         bCount++;
-                    } else {
-                        button.setText("");
                     }
 
-                    button.setGravity(Gravity.CENTER);
-                    button.setPadding(0, 0, 0, 0);
-                    button.setBackgroundColor(Color.LTGRAY);
+                    cell.setGravity(Gravity.CENTER);
+                    cell.setPadding(0, 0, 0, 0);
+                    cell.setBackgroundColor(Color.LTGRAY);
 
-
-                    button.setOnClickListener(v -> button.setBackgroundColor(Color.BLACK));
-
-                    button.setLayoutParams(layoutParams);
-                    tableRow.addView(button);
+                    cell.setLayoutParams(layoutParams);
+                    tableRow.addView(cell);
                 } else {
                     TextView textView = new TextView(this);
                     textView.setGravity(Gravity.CENTER);
