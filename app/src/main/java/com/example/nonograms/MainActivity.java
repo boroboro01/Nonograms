@@ -14,6 +14,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.util.Random;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -28,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         TableLayout tableLayout = findViewById(R.id.tableLayout);
-
+        Random random = new Random();
 
 
         for (int i = 0; i < 8; i++) {
@@ -39,7 +41,13 @@ public class MainActivity extends AppCompatActivity {
 
                 if (i > 2 && j > 2) {
                     Button button = new Button(this);
-                    button.setText("");
+
+                    if (random.nextBoolean()) {
+                        button.setText("B");
+                    } else {
+                        button.setText("");
+                    }
+
                     button.setGravity(Gravity.CENTER);
                     button.setPadding(0, 0, 0, 0);
                     button.setBackgroundColor(Color.LTGRAY);
